@@ -1,71 +1,103 @@
 # Configuration file for the Sphinx documentation builder.
-import os.path as osp
-import sys
+#
+# This file only contains a selection of the most common options. For a full
+# list see the documentation:
+# https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import benchmarl
-import benchmarl_sphinx_theme
+# -- Path setup --------------------------------------------------------------
 
-# -- Project information
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+#
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
-project = "BenchMARL"
-copyright = "Meta"
-author = "Matteo Bettini"
-version = benchmarl.__version__
+import sphinx_rtd_theme
 
-# -- General configuration
-sys.path.append(osp.join(osp.dirname(benchmarl_sphinx_theme.__file__), "extension"))
+# -- Project information -----------------------------------------------------
 
+project = 'ZhiJian'
+copyright = '2023, ZhiJian contributors'
+author = 'ZhiJian contributors'
+release = 'v1.0'
+
+# -- General configuration ---------------------------------------------------
+
+# Add any Sphinx extension module names here, as strings. They can be
+# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# ones.
 extensions = [
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.napoleon",
+    "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.coverage",
+    # 'sphinx.ext.imgmath',
     "sphinx.ext.mathjax",
-    "patch",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
 ]
 
-add_module_names = False
-autodoc_member_order = "bysource"
-toc_object_entries = False
-
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3/", None),
-    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
-    "torch": ("https://pytorch.org/docs/master", None),
-    "torchrl": ("https://pytorch.org/rl/stable/", None),
-    "tensordict": ("https://pytorch.org/tensordict/stable", None),
-}
-intersphinx_disabled_domains = ["std"]
-
+# Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
-html_static_path = [
-    osp.join(osp.dirname(benchmarl_sphinx_theme.__file__), "static"),
-    "_static",
-]
+source_suffix = [".rst"]
+master_doc = "index"
 
+# List of patterns, relative to source directory, that match files and
+# directories to ignore when looking for source files.
+# This pattern also affects html_static_path and html_extra_path.
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+autodoc_default_options = {
+    "special-members":
+    ", ".join(
+        [
+            "__len__",
+            "__call__",
+            "__getitem__",
+            "__setitem__",
+            # "__getattr__",
+            # "__setattr__",
+        ]
+    )
+}
+autodoc_member_order = "bysource"
 
+# -- Options for HTML output -------------------------------------------------
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
 html_theme = "sphinx_rtd_theme"
-html_logo = (
-    "https://raw.githubusercontent.com/matteobettini/benchmarl_sphinx_theme/master/benchmarl"
-    "_sphinx_theme/static/img/benchmarl_logo.png"
-)
-html_theme_options = {"logo_only": True, "navigation_depth": 2}
-# html_favicon = ('')
-html_css_files = [
-    "css/mytheme.css",
-]
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-# -- Options for EPUB output
-epub_show_urls = "footnote"
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ["_static"]
+
+html_logo = "_static/images/logo.png"
 
 
 def setup(app):
-    def rst_jinja_render(app, _, source):
-        rst_context = {"benchmarl": benchmarl}
-        source[0] = app.builder.templates.render_string(source[0], rst_context)
+    app.add_js_file("https://cdn.jsdelivr.net/npm/vega@5.20.2")
+    app.add_js_file("https://cdn.jsdelivr.net/npm/vega-lite@5.1.0")
+    app.add_js_file("https://cdn.jsdelivr.net/npm/vega-embed@6.17.0")
 
-    app.connect("source-read", rst_jinja_render)
-    app.add_js_file("js/version_alert.js")
+    app.add_css_file("css/style.css")
+
+
+# -- Extension configuration -------------------------------------------------
+
+# -- Options for intersphinx extension ---------------------------------------
+
+# Example configuration for intersphinx: refer to the Python standard library.
+# intersphinx_mapping = {'https://docs.python.org/3/': None}
+
+# -- Options for todo extension ----------------------------------------------
+
+# If true, `todo` and `todoList` produce output, else they produce nothing.
+# todo_include_todos = False
+
+numfig = True
