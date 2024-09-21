@@ -32,3 +32,4 @@ For example:
 >>> lumache.get_random_ingredients()
 ['shells', 'gorgonzola', 'parsley']
 
+30. **[Trompt](https://arxiv.org/abs/2305.18446)**: A prompt-based neural network for separating intrinsic column features and sample-specific feature importance.
