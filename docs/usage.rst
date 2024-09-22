@@ -6,6 +6,8 @@ Usage
 Installation
 ------------
 
+.. autofunction:: 1.a.la.check_softmax
+
 To use Lumache, first install it using pip:
 
 .. code-block:: console
